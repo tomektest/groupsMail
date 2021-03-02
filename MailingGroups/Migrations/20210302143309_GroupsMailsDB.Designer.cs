@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MailingGroups.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210301201646_Initial")]
-    partial class Initial
+    [Migration("20210302143309_GroupsMailsDB")]
+    partial class GroupsMailsDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

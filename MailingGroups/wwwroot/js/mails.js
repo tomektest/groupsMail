@@ -7,7 +7,7 @@ $(document).ready(function () {
 function loadMailsDataTable(id) {
     dataTable = $('#DT_mail_load').DataTable({
         "ajax": {
-            "url": "/mails/GetAll/"+id,
+            "url": "/mails/GetAllEmails/"+id,
             "type": "GET",
             "datatype": "json"
         },
@@ -20,7 +20,7 @@ function loadMailsDataTable(id) {
                     return `
                         <div class="text-center">
                             <a href="/Mails/Edit/${data}" class='btn btn-success text-white' style='cursor: pointer; width: 70px'>Edit</a>
-                            <a  class='btn btn-danger text-white' style='cursor: pointer; width: 70px' onclick=Delete('/Mails/Delete/'+${data})>Delete</a>
+                            <a  class='btn btn-danger text-white' style='cursor: pointer; width: 70px' onclick=Delete('/Mails/DeleteEmail/'+${data})>Delete</a>
                         </div>`
                 }, "width": "30%"
             }

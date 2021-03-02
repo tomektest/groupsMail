@@ -14,18 +14,15 @@ namespace MailingGroups.Data
 
         }
 
-        /*
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-         //   modelBuilder.Entity<GroupModel>()
-           //     .HasAlternateKey(g => g.Name);
+            modelBuilder.Entity<GroupType>()
+              .HasKey(m => m.Id);
 
-         //   modelBuilder.Entity<MailModel>()
-           //    .HasKey(m => m.Id);
-
-            //modelBuilder.Entity<MailModel>()
-              // .HasKey(m => m.Id);
-        }*/
+            modelBuilder.Entity<MailsType>()
+             .HasKey(m => m.Id);
+        }
 
         public DbSet<GroupType> Groups { get; set; }
 

@@ -1,4 +1,6 @@
 ﻿using MailingGroups.Types;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,12 +18,12 @@ namespace MailingGroups.Data
             _db = db;
         }
 
-        public async Task<List<MailsType>> GetAll(int groupId, string userID)
+        public List<MailsType> GetAll(int groupId, string userID)
         {
             List<MailsType> _data = new List<MailsType>();
             try
             {
-                _data = await _db.Mails.Where(x => x.GroupId == groupId).ToListAsync();
+                _data = _db.Mails.Where(x => x.GroupId == groupId).ToList();
                 for (int i = 0; i < _data.Count; i++)
                 {
                     _data[i].Lp = i + 1;
@@ -34,16 +36,16 @@ namespace MailingGroups.Data
             return _data;
         }
 
-        public async Task<bool> Delete(int mailId)
+        public bool Delete(int mailId)
         {
             try
             {
-                var mailsFromDb = await _db.Mails.FirstOrDefaultAsync(u => u.Id == mailId);
+                var mailsFromDb = _db.Mails.FirstOrDefault(u => u.Id == mailId);
                 if (mailsFromDb == null)
                     return false;
 
                 _db.Mails.Remove(mailsFromDb);
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -52,7 +54,7 @@ namespace MailingGroups.Data
             return true;
         }
 
-        public async Task Create(MailsType mail)
+        public void Create(MailsType mail)
         {
             try
             {
@@ -65,7 +67,7 @@ namespace MailingGroups.Data
             }
         }
 
-        public async Task<int> GetGroupEmail(int mailId)
+        public int GetGroupEmail(int mailId, string userID)
         {
             int groupId = -1;
             try
@@ -79,7 +81,7 @@ namespace MailingGroups.Data
             return groupId;
         }
 
-        public async Task<MailsType> GetEmailById(int mailId)
+        public MailsType GetEmailById(int mailId, string userID)
         {
             MailsType mail = new MailsType();
             try
@@ -93,8 +95,7 @@ namespace MailingGroups.Data
             return mail;
         }
 
-
-        public async Task UpdateEmail(MailsType mail)
+        public void UpdateEmail(MailsType mail)
         {
             try
             {

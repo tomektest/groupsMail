@@ -1,29 +1,26 @@
-﻿using MailingGroups.Areas.Identity.Data;
-using MailingGroups.Data;
+﻿using MailingGroups.Data;
 using MailingGroups.Types;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MailingGroups.Controllers
 {
-    [ApiController]
     [Authorize]
     public class GroupsController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
         private string UserID = null;
         private readonly IGroupData _GroupData;
+        private readonly ApiController _APIController;
         [BindProperty]
         public GroupType group { get; set; } 
 
-        public GroupsController(UserManager<IdentityUser> userManager, IGroupData GroupData)
+        public GroupsController(UserManager<IdentityUser> userManager, IGroupData GroupData, ApiController apiController)
         {
             _GroupData = GroupData;
             _userManager = userManager;
+            _APIController = apiController;
             object user;
             if (HttpContext != null && HttpContext.User != null)
                 user = _userManager.GetUserAsync(HttpContext.User);
@@ -32,7 +29,6 @@ namespace MailingGroups.Controllers
                 UserID = _userManager.GetUserId(User);
         }
 
-        [Route("Groups/Index")]
         public IActionResult Index()
         {
             if (User != null)
@@ -41,34 +37,9 @@ namespace MailingGroups.Controllers
             return View();
         }
 
-        /*  public IActionResult Authenticate()
-          {
-              var claims = new[]
-              {
-                  new Claim(JwtRegisteredClaimNames.Sub, UserID),
-                  new Claim("test", "test2")
-              };
+        //[Route("Groups/Upsert/{id:int?}")]
 
-              var secretBytes = Encoding.UTF8.GetBytes(JwtConstants.Secret);
-              var key = new SymmetricSecurityKey(secretBytes);
-              var algorithm = SecurityAlgorithms.HmacSha256;
-
-              var signingCredentials = new SigningCredentials(key, algorithm);
-
-              var token = new JwtSecurityToken(
-                  JwtConstants.Issuer,
-                  JwtConstants.Audience, 
-                  claims, 
-                  notBefore: DateTime.Now, 
-                  expires: DateTime.Now.AddHours(2),
-                  signingCredentials);
-
-              var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
-
-              return Ok(new { access_token = tokenJson });
-          }*/
-
-        [Route("Groups/Upsert/{id:int?}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Upsert(int? id)
         {
             if (User != null)
@@ -79,7 +50,10 @@ namespace MailingGroups.Controllers
             {
                 return View(group);
             }
-            group = _GroupData.GetGroupById(id.Value, UserID).Result;
+
+            var groupJson = _APIController.GetGroupById(id.Value).Result;
+            group = (GroupType)groupJson.Value;
+
             if (group == null)
             {
                 return NotFound();
@@ -87,10 +61,11 @@ namespace MailingGroups.Controllers
             return View(group);
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Groups/Upsert")]
-        public IActionResult Upsert()
+        public IActionResult UpsertSubmit()
         {
             if (User != null)
                 UserID = _userManager.GetUserId(User);
@@ -100,82 +75,16 @@ namespace MailingGroups.Controllers
             {
                 if (group.Id == 0)
                 {
-                    _GroupData.AddGroup(group);
+                    var resultJson = _APIController.AddGroup(group).Result;
                 }
                 else
                 {
-                    _GroupData.UpdateGroup(group);
-
+                    var resultJson = _APIController.EditGroup(group);
                 }
                 return RedirectToAction("Index");
             }
 
             return View(group);
         }
-
-        //GET Groups/GetAll
-        /// <summary>
-        /// Description of Groups/GetAll
-        /// </summary>
-        /// <returns>Json</returns>
-        [HttpGet]
-        [Route("Groups/GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            if (User != null)
-                UserID = _userManager.GetUserId(User);
-
-            List<GroupType> _data = new List<GroupType>();
-
-            try
-            {
-                _data = await _GroupData.GetAll(UserID);
-            }
-            catch(Exception ex)
-            {
-                throw new NotImplementedException("Not implemented.");
-            }
-
-            return Json(new { data = _data });
-        }
-
-        //GET Groups/Delete
-        /// <summary>
-        /// Description of Groups/Delete
-        /// </summary>
-        /// <returns></returns>
-        [HttpDelete]
-        [Route("Groups/Delete/{groupId:int}")]
-        public async Task<IActionResult> Delete(int groupId)
-        {
-            try
-            {
-                if (User != null)
-                  UserID = _userManager.GetUserId(User);
- 
-                bool result = await _GroupData.Delete(groupId, UserID);
-                if (result)
-                    return Json(new { success = true, message = "Delete successful" });
-            }
-            catch(Exception ex)
-            {
-                throw new NotImplementedException("Not implemented.");
-            }
-            return Json(new { success = false, message = "Error while Deleting" });
-        }
-
-       /* [AcceptVerbs("GET", "POST")]
-        public IActionResult VerifyGroupName(string Name)
-        {
-            if (User != null)
-                UserID = _userManager.GetUserId(User);
-
-            if (_GroupData.VerifyGroupName(Name, UserID).Result)
-            {
-                return Json($"Group {Name} is already in use.");
-            }
-
-            return Json(true);
-        }*/
     }
 }

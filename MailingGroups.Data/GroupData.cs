@@ -1,4 +1,6 @@
 ﻿using MailingGroups.Types;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,13 @@ namespace MailingGroups.Data
             _db = db;
         }
 
-        public async Task<List<GroupType>> GetAll(string UserId)
+        public List<GroupType> GetAll(string UserId)
         {
             List<GroupType> _data = new List<GroupType>();
 
             try
             {
-                _data = await _db.Groups.Where(x => x.UserId == UserId).ToListAsync();
+                _data = _db.Groups.Where(x => x.UserId == UserId).ToList();
                 for (int i = 0; i < _data.Count; i++)
                 {
                     _data[i].Lp = i + 1;
@@ -37,18 +39,18 @@ namespace MailingGroups.Data
             return _data;
         }
 
-        public async Task<bool> Delete(int groupId, string UserId)
+        public bool Delete(int groupId, string UserId)
         {
             try
             {
-                var groupsFromDb = await _db.Groups.Where(x => x.UserId == UserId).FirstOrDefaultAsync(u => u.Id == groupId);
+                var groupsFromDb = _db.Groups.Where(x => x.UserId == UserId).FirstOrDefault(u => u.Id == groupId);
                 if (groupsFromDb == null)
                 {
                     return false;
                 }
 
                 _db.Groups.Remove(groupsFromDb);
-                await _db.SaveChangesAsync();
+                _db.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -58,7 +60,7 @@ namespace MailingGroups.Data
             return true;
         }
 
-        public async Task UpdateGroup(GroupType group)
+        public void UpdateGroup(GroupType group)
         {
             try
             {
@@ -71,7 +73,7 @@ namespace MailingGroups.Data
             }
         }
 
-        public async Task<bool> ValidGroupName(GroupType group)
+        public bool ValidGroupName(GroupType group)
         {
             try
             {
@@ -86,7 +88,7 @@ namespace MailingGroups.Data
             return true;
         }
 
-        public async Task AddGroup(GroupType group)
+        public void AddGroup(GroupType group)
         {
             try
             {
@@ -99,7 +101,7 @@ namespace MailingGroups.Data
             }
         }
 
-        public async Task<GroupType> GetGroupById(int groupId, string userID)
+        public GroupType GetGroupById(int groupId, string userID)
         {
             GroupType _group = new GroupType();
             try
@@ -114,7 +116,7 @@ namespace MailingGroups.Data
             return _group;
         }
 
-        public async Task<bool> VerifyGroupName(string name, string userID)
+        public bool VerifyGroupName(string name, string userID)
         {
             GroupType _group = new GroupType();
             try

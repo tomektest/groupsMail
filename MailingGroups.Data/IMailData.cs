@@ -6,15 +6,15 @@ namespace MailingGroups.Data
 {
     public interface IMailData
     {
-        Task<List<MailsType>> GetAll(int groupId, string userID);
-        Task<bool> Delete(int mailId);
+        List<MailsType> GetAll(int groupId, string userID);
+        bool Delete(int mailId);
 
-        Task Create(MailsType mail);
+        void Create(MailsType mail);
 
-        Task<int> GetGroupEmail(int mailId);
+        int GetGroupEmail(int mailId, string userID);
 
-        Task<MailsType> GetEmailById(int mailId);
+        MailsType GetEmailById(int mailId, string userID);
 
-        Task UpdateEmail(MailsType mail);
+        void UpdateEmail(MailsType mail);
     }
 }

@@ -24,4 +24,13 @@ namespace MailingGroups.Models
    //     [Required]
         public string UserId { get; set; }
     }
+
+    public class GroupViewModel
+    {
+        public int Id { get; set; }
+
+        public int Lp { get; set; }
+
+        public string Name { get; set; }
+    }
 }

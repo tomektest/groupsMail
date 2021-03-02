@@ -7,7 +7,7 @@ $(document).ready(function () {
 function loadGroupsDataTable() {
     dataTable = $('#DT_load').DataTable({
         "ajax": {
-            "url": "/Groups/GetAll",
+            "url": "/Groups/GetAllGroups",
             "type": "GET",
             "datatype": "json"
         },
@@ -20,7 +20,7 @@ function loadGroupsDataTable() {
                     return `
                         <div class="text-center">
                             <a href="/Groups/Upsert/${data}" class='btn btn-success text-white' style='cursor: pointer; width: 70px'>Edit</a>
-                            <a  class='btn btn-danger text-white' style='cursor: pointer; width: 70px' onclick=Delete('/Groups/Delete/'+${data})>Delete</a>
+                            <a  class='btn btn-danger text-white' style='cursor: pointer; width: 70px' onclick=Delete('/Groups/DeleteGroups/'+${data})>Delete</a>
                             <a href="/Mails/Index/${data}" class='btn btn-info text-white' style='cursor: pointer; width: 110px'>E-mails</a>
                         </div>`
                 }, "width": "50%"
