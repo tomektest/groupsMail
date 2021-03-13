@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MailingGroups.API\MailingGroups.API.csproj" />
     <ProjectReference Include="..\MailingGroups\MailingGroups.csproj" />
   </ItemGroup>
 
