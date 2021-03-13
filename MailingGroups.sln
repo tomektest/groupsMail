@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailingGroups", "MailingGroups\MailingGroups.csproj", "{0775D087-CBAE-40D8-8C7C-ABF50BBE326B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailingGroups.XUnitTest", "MailingGroups.XUnitTest\MailingGroups.XUnitTest.csproj", "{8A5ED595-CD31-4601-9AFB-DFED9A38A687}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailingGroups.API", "MailingGroups.API\MailingGroups.API.csproj", "{5099522E-2BB7-4708-9CDD-5AC74B0F7CAD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{5255A220-29EC-4739-8F78-8CAF22338D13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{AF9CAA86-9C9C-400E-AB98-25A592106A01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{AF9CAA86-9C9C-400E-AB98-25A592106A01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0775D087-CBAE-40D8-8C7C-ABF50BBE326B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0775D087-CBAE-40D8-8C7C-ABF50BBE326B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0775D087-CBAE-40D8-8C7C-ABF50BBE326B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0775D087-CBAE-40D8-8C7C-ABF50BBE326B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A5ED595-CD31-4601-9AFB-DFED9A38A687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A5ED595-CD31-4601-9AFB-DFED9A38A687}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A5ED595-CD31-4601-9AFB-DFED9A38A687}.Release|Any CPU.ActiveCfg = Release|Any CPU
