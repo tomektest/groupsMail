@@ -10,8 +10,8 @@ namespace Core.Interfaces
     {
         IEnumerable<GroupType> GetAllGroups();
         bool DeleteGroups(int groupId);
-        bool AddGroup(GroupType group);
-        bool EditGroup(GroupType group);
+        bool AddGroup(string groupName);
+        bool EditGroup(int id, string groupName);
         GroupType GetGroupById(int groupId);
     }
 }

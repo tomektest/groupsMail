@@ -58,10 +58,13 @@ namespace MailingGroups.API.Controllers
         /// </remarks>
         /// <param name="group"></param>
         /// <response code="200">OK</response>
-        [HttpPut("[action]/{group}")]
-        public IActionResult AddGroup(GroupType group)
+        [HttpPut("[action]/{groupName}")]
+        public IActionResult AddGroup(string groupName)
         {
-            var groups = _groupsService.AddGroup(group);
+            if (string.IsNullOrEmpty(groupName))
+                return BadRequest();
+
+            var groups = _groupsService.AddGroup(groupName);
             if (!groups)
                 return NotFound();
             return Ok(groups);
@@ -73,10 +76,14 @@ namespace MailingGroups.API.Controllers
         /// </remarks>
         /// <param name="group"></param>
         /// <response code="200">OK</response>
-        [HttpPut("[action]/{group}")]
-        public IActionResult EditGroup(GroupType group)
+        [HttpPut("[action]/{id}/{groupName}")]
+        public IActionResult EditGroup(int id, string groupName)
         {
-            var groups = _groupsService.EditGroup(group);
+            if (string.IsNullOrEmpty(groupName))
+                return BadRequest();
+
+            var groups = _groupsService.EditGroup(id, groupName);
+
             if (!groups)
                 return NotFound();
             return Ok(groups);
@@ -88,7 +95,7 @@ namespace MailingGroups.API.Controllers
         /// </remarks>
         /// <param name="groupId"></param>
         /// <response code="200">OK</response>
-        [HttpGet("[action]{groupId}")]
+        [HttpGet("[action]/{groupId}")]
         public IActionResult GetGroupById(int groupId)
         {
             var groups = _groupsService.GetGroupById(groupId);

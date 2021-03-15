@@ -50,7 +50,7 @@ namespace Core.Services
             return true;
         }
 
-        public bool EditEmail(MailsType mail)
+        public bool EditEmail(int id, string mail, int groupID)
         {
             string userID = "";
             if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null &&
@@ -59,16 +59,16 @@ namespace Core.Services
             else
                 return false;
 
-            var emails = _mailRepository.GetAll(mail.GroupId, userID);
-            if (emails.Any(x => x.Email == mail.Email))
+            var emails = _mailRepository.GetAll(groupID, userID);
+            if (emails.Any(x => x.Email == mail))
                 return false;
             else
-                _mailRepository.UpdateEmail(mail, userID);
+                _mailRepository.UpdateEmail(id, mail, groupID, userID);
 
             return true;
         }
         
-        public bool AddEmail(MailsType mail)
+        public bool AddEmail(string mail, int groupID)
         {
             string userID = "";
             if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null &&
@@ -77,11 +77,11 @@ namespace Core.Services
             else
                 return false;
 
-            var emails = _mailRepository.GetAll(mail.GroupId, userID);
-            if (emails.Any(x => x.Email == mail.Email))
+            var emails = _mailRepository.GetAll(groupID, userID);
+            if (emails.Any(x => x.Email == mail))
                 return false;
             else
-                _mailRepository.Create(mail, userID);
+                _mailRepository.Create(mail, groupID, userID);
 
             return true;
         }

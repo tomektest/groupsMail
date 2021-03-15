@@ -51,10 +51,15 @@ namespace Infrastructure.Data
             return true;
         }
 
-        public void Create(MailsType mail, string userID)
+        public void Create(string mailText, int groupId, string userID)
         {
             try
             {
+                MailsType mail = new MailsType();
+                mail.GroupId = groupId;
+                mail.GroupModelId = groupId;
+                mail.Email = mailText;
+
                 _db.Mails.Add(mail);
                 _db.SaveChanges();
             }
@@ -92,10 +97,16 @@ namespace Infrastructure.Data
             return mail;
         }
 
-        public void UpdateEmail(MailsType mail, string userID)
+        public void UpdateEmail(int id, string mailText, int groupId , string userID)
         {
             try
             {
+                MailsType mail = new MailsType();
+                mail.GroupId = groupId;
+                mail.GroupModelId = groupId;
+                mail.Email = mailText;
+                mail.Id = id;
+
                 _db.Mails.Update(mail);
                 _db.SaveChanges();
             }

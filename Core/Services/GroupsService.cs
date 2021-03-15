@@ -47,10 +47,12 @@ namespace Core.Services
                 return false;
 
             bool result = _groupsRepository.Delete(groupId, userID);
+            if (!result)
+                return false;
             return result;
         }
 
-        public bool AddGroup(GroupType group)
+        public bool AddGroup(string groupName)
         {
             string userID = "";
             if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null &&
@@ -60,14 +62,14 @@ namespace Core.Services
                 return false;
 
             var groups = _groupsRepository.GroupAll(userID);
-            if (groups.Any(x => x.Name == group.Name))
+            if (groups.Any(x => x.Name == groupName))
                 return false;
             else
-                _groupsRepository.AddGroup(group, userID);
+                _groupsRepository.AddGroup(groupName, userID);
             return true;
         }
 
-        public bool EditGroup(GroupType group)
+        public bool EditGroup(int id, string groupName)
         {
             string userID = "";
             if (_httpContextAccessor != null && _httpContextAccessor.HttpContext != null && _httpContextAccessor.HttpContext.User != null &&
@@ -77,10 +79,10 @@ namespace Core.Services
                 return false;
 
             var groups = _groupsRepository.GroupAll(userID);
-            if (groups.Any(x => x.Name == group.Name))
+            if (groups.Any(x => x.Name == groupName))
                 return false;
             else
-                _groupsRepository.UpdateGroup(group, userID);
+                _groupsRepository.UpdateGroup(id, groupName, userID);
             return true;
         }
 
@@ -94,6 +96,8 @@ namespace Core.Services
                 return null;
 
             var group = _groupsRepository.GetGroupById(groupId, userID);
+            if (group == null || group.Name == null || group.UserId == null)
+                return null;
             return group;
         }
     }

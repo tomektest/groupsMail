@@ -11,8 +11,8 @@ namespace Core.Interfaces
     {
         IEnumerable<MailsType> GetAllEmails(int groupId);
         bool DeleteEmail(int mailId);
-        bool EditEmail(MailsType mail);
-        bool AddEmail(MailsType mail);
+        bool EditEmail(int id, string mail, int groupID);
+        bool AddEmail(string mail, int groupID);
         MailsType GetEmailById(int mailId);
         int GetGroupIdByEmailId(int mailId);
     }

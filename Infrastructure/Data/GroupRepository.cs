@@ -53,10 +53,15 @@ namespace Infrastructure.Data
             return true;
         }
 
-        public void UpdateGroup(GroupType group, string userID)
+        public void UpdateGroup(int id, string groupName, string userID)
         {
             try
             {
+                GroupType group = new GroupType();
+                group.Name = groupName;
+                group.UserId = userID;
+                group.Id = id;
+
                 _db.Groups.Update(group);
                 _db.SaveChanges();
             }
@@ -81,10 +86,14 @@ namespace Infrastructure.Data
             return true;
         }
 
-        public void AddGroup(GroupType group, string userID)
+        public void AddGroup(string groupName, string userID)
         {
             try
             {
+                GroupType group = new GroupType();
+                group.Name = groupName;
+                group.UserId = userID;
+
                 _db.Groups.Add(group);
                 _db.SaveChanges();
             }

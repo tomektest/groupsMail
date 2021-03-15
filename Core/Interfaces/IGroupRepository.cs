@@ -9,11 +9,11 @@ namespace Core.Interfaces
         IEnumerable<GroupType> GroupAll(string userID);
         bool Delete(int groupId, string UserId);
 
-        void UpdateGroup(GroupType group, string userID);
+        void UpdateGroup(int id, string groupName, string userID);
 
         bool ValidGroupName(GroupType group, string userID);
 
-        void AddGroup(GroupType group, string userID);
+        void AddGroup(string groupName, string userID);
 
         GroupType GetGroupById(int groupId, string userID);
 

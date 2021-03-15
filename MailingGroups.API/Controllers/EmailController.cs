@@ -59,10 +59,13 @@ namespace MailingGroups.API.Controllers
         /// </remarks>
         /// <param name="mail"></param>
         /// <response code="200">OK</response>
-        [HttpPut("[action]/{group}")]
-        public IActionResult AddEmail(MailsType mail)
+        [HttpPut("[action]/mail/{groupID}")]
+        public IActionResult AddEmail(string mail, int groupID)
         {
-            var result = _mailService.AddEmail(mail);
+            if (string.IsNullOrEmpty(mail))
+                return BadRequest();
+
+            var result = _mailService.AddEmail(mail, groupID);
             if (!result)
                 return NotFound();
             return Ok(result);
@@ -74,10 +77,14 @@ namespace MailingGroups.API.Controllers
         /// </remarks>
         /// <param name="mail"></param>
         /// <response code="200">OK</response>
-        [HttpPut("[action]/{mail}")]
-        public IActionResult EditEmail(MailsType mail)
+        [HttpPut("[action]/{id}/{mail}/{groupID}")]
+        public IActionResult EditEmail(int id, string mail, int groupID)
         {
-            var result = _mailService.EditEmail(mail);
+            if (string.IsNullOrEmpty(mail))
+                return BadRequest();
+
+            var result = _mailService.EditEmail(id, mail, groupID);
+
             if (!result)
                 return NotFound();
             return Ok(result);
